@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>من قلبي إليكِ ❤️</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #14080e;
+            --bg-gradient: radial-gradient(circle at top, #2d0f1e 0%, #14080e 65%, #0a0306 100%);
+            --card-bg: rgba(255, 255, 255, 0.04);
+            --card-border: rgba(255, 117, 143, 0.22);
+            --primary: #ff4d6d;
+            --primary-glow: rgba(255, 77, 109, 0.5);
+            --gold: #f3c677;
+            --text-main: #fff0f3;
+            --text-muted: #d8b4be;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--bg-dark);
+            background-image: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.8;
+            position: relative;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Intro Splash Screen */
+        #intro-screen {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at center, #2b0d1b 0%, #0d0308 100%);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            transition: opacity 0.9s ease, visibility 0.9s ease;
+        }
+
+        #intro-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .heart-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            width: 120px;
+            height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            animation: pulseHeart 1.6s infinite ease-in-out;
+        }
+
+        .heart-btn svg {
+            width: 90px;
+            height: 90px;
+            fill: var(--primary);
+            filter: drop-shadow(0 0 25px var(--primary-glow));
+            transition: transform 0.3s ease;
+        }
+
+        .heart-btn:hover svg {
+            transform: scale(1.1);
+        }
+
+        @keyframes pulseHeart {
+            0%, 100% { transform: scale(1); }
+            15% { transform: scale(1.15); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.1); }
+            60% { transform: scale(1); }
+        }
+
+        .intro-title {
+            font-family: 'Amiri', serif;
+            font-size: 2rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            text-shadow: 0 2px 15px rgba(255, 77, 109, 0.4);
+        }
+
+        .intro-sub {
+            color: var(--text-muted);
+            font-size: 1rem;
+            opacity: 0.85;
+            animation: fadeBlink 2s infinite;
+        }
+
+        @keyframes fadeBlink {
+            0%, 100% { opacity: 0.45; }
+            50% { opacity: 1; }
+        }
+
+        /* Intro Boxes Overlay (Step 2 after clicking heart) */
+        #boxes-screen {
+            position: fixed;
+            inset: 0;
+            background: rgba(13, 3, 8, 0.95);
+            z-index: 90;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        #boxes-screen.active {
+            display: flex;
+        }
+
+        .animated-box {
+            background: linear-gradient(145deg, rgba(255, 77, 109, 0.15), rgba(255, 255, 255, 0.05));
+            border: 1.5px solid var(--card-border);
+            border-radius: 20px;
+            padding: 25px 30px;
+            margin: 12px 0;
+            max-width: 550px;
+            width: 100%;
+            text-align: center;
+            font-family: 'Amiri', serif;
+            font-size: 1.35rem;
+            color: #fff5f7;
+            line-height: 2;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            opacity: 0;
+            transform: translateX(-120vw);
+            animation: slideInWiggle 1.2s cubic-bezier(0.25, 1, 0.5, 1.25) forwards;
+        }
+
+        @keyframes slideInWiggle {
+            0% {
+                transform: translateX(-120vw) rotate(-5deg);
+                opacity: 0;
+            }
+            70% {
+                transform: translateX(25px) rotate(2deg);
+                opacity: 1;
+            }
+            85% {
+                transform: translateX(-12px) rotate(-1deg);
+            }
+            100% {
+                transform: translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        .next-step-btn {
+            background: linear-gradient(135deg, #ff4d6d 0%, #c9184a 100%);
+            color: white;
+            border: none;
+            padding: 12px 35px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: 'Tajawal', sans-serif;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 25px;
+            box-shadow: 0 10px 25px rgba(255, 77, 109, 0.4);
+            transition: transform 0.2s ease;
+            opacity: 0;
+            animation: fadeInBtn 0.8s ease forwards 0.5s;
+        }
+
+        .next-step-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes fadeInBtn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Music Toggle Button */
+        .music-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .music-toggle:hover {
+            background: rgba(255, 77, 109, 0.2);
+            border-color: var(--primary);
+        }
+
+        .music-bars {
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 14px;
+        }
+
+        .music-bars span {
+            width: 3px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: height 0.2s ease;
+        }
+
+        .music-toggle.playing .music-bars span:nth-child(1) { animation: barJump 0.6s infinite alternate; }
+        .music-toggle.playing .music-bars span:nth-child(2) { animation: barJump 0.8s infinite alternate 0.2s; }
+        .music-toggle.playing .music-bars span:nth-child(3) { animation: barJump 0.5s infinite alternate 0.4s; }
+
+        @keyframes barJump {
+            from { height: 4px; }
+            to { height: 14px; }
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 75px 20px 60px;
+            position: relative;
+            z-index: 10;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 1s ease, transform 1s ease;
+            display: none;
+        }
+
+        .container.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Love Letter Card */
+        .letter-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 42px 36px;
+            backdrop-filter: blur(14px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), inset 0 0 30px rgba(255, 77, 109, 0.05);
+            margin-bottom: 45px;
+            position: relative;
+        }
+
+        .letter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 18px;
+            margin-bottom: 30px;
+        }
+
+        .letter-from {
+            font-family: 'Amiri', serif;
+            font-size: 1.15rem;
+            color: var(--gold);
+        }
+
+        .letter-icon {
+            font-size: 1.3rem;
+            color: var(--primary);
+        }
+
+        .letter-title {
+            font-family: 'Amiri', serif;
+            font-size: clamp(1.8rem, 4vw, 2.3rem);
+            color: var(--gold);
+            margin-bottom: 25px;
+            text-shadow: 0 2px 15px rgba(243, 198, 119, 0.25);
+        }
+
+        .letter-body {
+            font-family: 'Amiri', serif;
+            font-size: clamp(1.2rem, 2.8vw, 1.42rem);
+            color: #fff5f7;
+            line-height: 2.3;
+            min-height: 280px;
+            white-space: pre-line;
+        }
+
+        .red-underline {
+            border-bottom: 3.5px solid #ff1e42;
+            padding-bottom: 2px;
+            text-shadow: 0 0 12px rgba(255, 30, 66, 0.45);
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background-color: var(--primary);
+            vertical-align: middle;
+            margin-right: 4px;
+            animation: blinkCursor 0.8s infinite;
+        }
+
+        @keyframes blinkCursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .skip-btn {
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-family: 'Tajawal', sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: 15px;
+            opacity: 0.8;
+            text-decoration: underline;
+            display: inline-block;
+        }
+
+        .letter-footer {
+            margin-top: 35px;
+            padding-top: 22px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .letter-footer.show {
+            opacity: 1;
+        }
+
+        .footer-note {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .signature-text {
+            font-family: 'Amiri', serif;
+            font-size: 1.35rem;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Promises Section */
+        .section-title {
+            text-align: center;
+            font-family: 'Amiri', serif;
+            font-size: 1.9rem;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .section-hint {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 28px;
+        }
+
+        .promises-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 18px;
+            margin-bottom: 50px;
+        }
+
+        .promise-card {
+            height: 195px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .promise-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .promise-card.flipped .promise-inner {
+            transform: rotateY(180deg);
+        }
+
+        .promise-front, .promise-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 20px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--card-border);
+            backdrop-filter: blur(10px);
+        }
+
+        .promise-front {
+            background: linear-gradient(145deg, rgba(255, 77, 109, 0.12), rgba(255, 255, 255, 0.03));
+        }
+
+        .promise-icon {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+        }
+
+        .promise-front h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 6px;
+        }
+
+        .promise-front span {
+            font-size: 0.8rem;
+            color: var(--gold);
+        }
+
+        .promise-back {
+            background: linear-gradient(145deg, rgba(255, 77, 109, 0.28), rgba(45, 15, 30, 0.92));
+            border-color: var(--primary);
+            transform: rotateY(180deg);
+        }
+
+        .promise-back p {
+            font-size: 1rem;
+            color: #fff;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        /* Reassurance Interactive Button */
+        .reassurance-box {
+            text-align: center;
+            background: linear-gradient(180deg, rgba(255, 77, 109, 0.08) 0%, rgba(255, 77, 109, 0.02) 100%);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 35px 24px;
+            margin-bottom: 45px;
+        }
+
+        .love-action-btn {
+            background: linear-gradient(135deg, #ff4d6d 0%, #c9184a 100%);
+            color: white;
+            border: none;
+            padding: 15px 32px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            font-family: 'Tajawal', sans-serif;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(255, 77, 109, 0.4);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .love-action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(255, 77, 109, 0.55);
+        }
+
+        .reassurance-message {
+            margin-top: 22px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Amiri', serif;
+            font-size: 1.35rem;
+            color: var(--gold);
+            padding: 0 10px;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Send Heartfelt Message Section (Discord Webhook) */
+        .reply-box {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.05), rgba(255, 77, 109, 0.08));
+            border: 1px solid rgba(243, 198, 119, 0.35);
+            border-radius: 24px;
+            padding: 35px 28px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+            text-align: center;
+        }
+
+        .reply-box h2 {
+            font-family: 'Amiri', serif;
+            font-size: 1.85rem;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .reply-box p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .reply-textarea {
+            width: 100%;
+            min-height: 130px;
+            background: rgba(15, 5, 10, 0.65);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 16px;
+            color: #fff;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 18px;
+        }
+
+        .reply-textarea::placeholder {
+            color: rgba(216, 180, 190, 0.5);
+        }
+
+        .reply-textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 18px rgba(255, 77, 109, 0.25);
+        }
+
+        .send-discord-btn {
+            background: linear-gradient(135deg, #f3c677 0%, #d49a3a 100%);
+            color: #1f0a12;
+            border: none;
+            padding: 14px 36px;
+            font-size: 1.05rem;
+            font-weight: 800;
+            font-family: 'Tajawal', sans-serif;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(243, 198, 119, 0.35);
+            transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .send-discord-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(243, 198, 119, 0.5);
+        }
+
+        .send-discord-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .send-status {
+            margin-top: 15px;
+            font-size: 0.98rem;
+            font-weight: 500;
+            min-height: 24px;
+            transition: opacity 0.3s ease;
+        }
+
+        .send-status.success {
+            color: #6ee7b7;
+        }
+
+        .send-status.error {
+            color: #fca5a5;
+        }
+
+        /* Floating Burst Hearts */
+        .floating-heart {
+            position: fixed;
+            font-size: 1.6rem;
+            pointer-events: none;
+            z-index: 999;
+            animation: floatUp 2.2s ease-out forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(0.6) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-220px) scale(1.4) rotate(25deg);
+                opacity: 0;
+            }
+        }
+
+        footer {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            opacity: 0.7;
+            padding-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .letter-card {
+                padding: 26px 20px;
+            }
+            .promises-grid {
+                grid-template-columns: 1fr;
+            }
+            .promise-card {
+                height: 170px;
+            }
+            .reply-box {
+                padding: 26px 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- عنصر الصوت -->
+    <audio id="bg-audio" loop preload="auto">
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Intro Splash -->
+    <div id="intro-screen">
+        <button class="heart-btn" id="open-btn" aria-label="افتحي الرسالة">
+            <svg viewBox="0 0 32 29.6">
+                <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
+                c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
+            </svg>
+        </button>
+        <h2 class="intro-title">رسالة من القلب لكِ وحدكِ</h2>
+        <p class="intro-sub">اضغطي على القلب لفتحها ✨</p>
+    </div>
+
+    <!-- Animated Boxes Screen (المربعات اللي تدخل من اليسار وتهتز) -->
+    <div id="boxes-screen">
+        <div class="animated-box" style="animation-delay: 0.2s;">
+            تدلعي يا أميرتي لان<br>الدلع ما يليق إلا<br><span style="color: var(--primary);">–عليك–</span>
+        </div>
+        <div class="animated-box" style="animation-delay: 0.6s;">
+            إلا دلوعتي<br>لحد يزعلها ولا ترا<br>بحرقكم واحد<br>ورا الثاني 🛡️🔥
+        </div>
+        <div class="animated-box" style="animation-delay: 1.0s; font-size: 1.15rem;">
+            مين محبوبتي؟ انتي<br>
+            مين أميرتي؟ انتي<br>
+            مين حبيبتي؟ انتي<br>
+            مين ملاكي؟ انتي<br>
+            مين قمري؟ انتي<br>
+            ✨ مَين نَجُوَمِي؟ انتي<br>
+            مين ملكتي؟ انتي<br>
+            مين الي أراضيها؟ انتي ❤️
+        </div>
+        <button class="next-step-btn" id="continue-btn">دخلي لرسالة قلبي ✨</button>
+    </div>
+
+    <!-- Audio Toggle Button -->
+    <button class="music-toggle" id="music-btn" title="تشغيل / إيقاف المقطع الصوتي">
+        <div class="music-bars">
+            <span></span><span></span><span></span>
+        </div>
+        <span id="music-label">المقطع الصوتي</span>
+    </button>
+
+    <!-- Main Content -->
+    <main class="container" id="main-content">
+        <section class="letter-card">
+            <div class="letter-header">
+                <span class="letter-from">من قلبي إليكِ</span>
+                <span class="letter-icon">🪶</span>
+            </div>
+            <h1 class="letter-title">حبيبتي، وأجمل ما في حياتي...</h1>
+            
+            <div class="letter-body" id="typed-letter"></div>
+            <button class="skip-btn" id="skip-typing">إظهار الرسالة كاملة</button>
+
+            <div class="letter-footer" id="signature">
+                <span class="footer-note">عهداً أكتبه لكِ بصدق:</span>
+                <span class="signature-text">حبيبتي الذي لا يتغير عليكِ أبداً <span style="color: var(--primary);">❤️</span></span>
+            </div>
+        </section>
+
+        <!-- Interactive Promises -->
+        <h2 class="section-title">عهودي معكِ في كل وقت</h2>
+        <p class="section-hint">المسي كل بطاقة لتقرئي وعدي لكِ</p>
+
+        <section class="promises-grid">
+            <div class="promise-card" onclick="this.classList.toggle('flipped')">
+                <div class="promise-inner">
+                    <div class="promise-front">
+                        <div class="promise-icon">🍯</div>
+                        <h3>دايماً سمن على عسل</h3>
+                        <span>اضغطي لقراءة الوعد</span>
+                    </div>
+                    <div class="promise-back">
+                        <p>الحمد لله علاقتنا أجمل ما يكون، وبإذن الله تبقى أيامنا كلها مودة وضحك وراحة بال وما يغيرها شيء.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="promise-card" onclick="this.classList.toggle('flipped')">
+                <div class="promise-inner">
+                    <div class="promise-front">
+                        <div class="promise-icon">🤝</div>
+                        <h3>مستحيل أترككِ</h3>
+                        <span>اضغطي لقراءة الوعد</span>
+                    </div>
+                    <div class="promise-back">
+                        <p>مهما مرّت الأيام أو واجهتنا أي ظروف في الحياة، يدي بيدك وما أفلتها لو مهما صار بيننا.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="promise-card" onclick="this.classList.toggle('flipped')">
+                <div class="promise-inner">
+                    <div class="promise-front">
+                        <div class="promise-icon">🛡️</div>
+                        <h3>ما راح أتغير عليكِ</h3>
+                        <span>اضغطي لقراءة الوعد</span>
+                    </div>
+                    <div class="promise-back">
+                        <p>لهفتي عليكِ، اهتمامي فيكِ، ومكانتكِ بقلبي راح تزيد كل يوم وما تنقص لحظة واحدة.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="promise-card" onclick="this.classList.toggle('flipped')">
+                <div class="promise-inner">
+                    <div class="promise-front">
+                        <div class="promise-icon">🌙</div>
+                        <h3>أمانكِ وسندكِ</h3>
+                        <span>اضغطي لقراءة الوعد</span>
+                    </div>
+                    <div class="promise-back">
+                        <p>في فرحكِ أكون أول من يشارككِ، وفي تعبكِ أكون أول من يحتويكِ ويطمن قلبكِ.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reassurance Button -->
+        <section class="reassurance-box">
+            <button class="love-action-btn" id="miss-you-btn">
+                <span>اضغطي هنا كل ما اشتقتي لي</span>
+                <span>❤️</span>
+            </button>
+            <div class="reassurance-message" id="reassurance-text">
+                أنا معكِ وبجانبكِ دائماً.. لا تشيلي هم أي شيء في الدنيا ✨
+            </div>
+        </section>
+
+        <!-- Heartfelt Reply to Discord Webhook -->
+        <section class="reply-box">
+            <h2>اكتبي رسالة من القلب 💌</h2>
+            <p>أي كلمة تكتبينها هنا راح توصلني مباشرة وتفرح قلبي..</p>
+            <textarea 
+                id="heart-message" 
+                class="reply-textarea" 
+                placeholder="اكتبي اللي بخاطركِ هنا بكل حرية..."
+            ></textarea>
+            <br>
+            <button class="send-discord-btn" id="send-msg-btn">
+                <span>إرسال الرسالة لقلبي</span>
+                <span>✨</span>
+            </button>
+            <div class="send-status" id="send-status"></div>
+        </section>
+
+        <footer>
+            <span style="display:inline-flex; align-items:center; gap:6px;">إلى الأبد <span style="color:var(--primary)">∞</span></span>
+        </footer>
+    </main>
+
+    <script>
+        const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1569368931469369454/K-N4Xvub3xlkZesJDzf6HVVHeOwIXYgPo_iatlXiwboGbQwcP2eGZwwA7wTTqidpP2FO";
+
+        const letterSegments = [
+            { text: "الحمد لله إحنا سمن على عسل، وما اختلفنا بشي أبداً، وكل يوم يمر معكِ يزيدني يقين إنكِ أجمل نعمة ربي رزقني فيها.\n\nوكتبت لك هذه الرسالة عشان تبقى قدام عينك في كل وقت: مستحيل أسيبك مهما حصل بيننا أو لو صار أي اختلاف مستقبلاً. الدنيا ممكن تلهينا والظروف ممكن تمر، لكن يدي عمرها ما راح تترك يدكِ.\n\nأنا اخترتك بقلبي وعقلي، واللي يحب بصدق يتمسك بحبيبته في كل الظروف، والحمد لله قلوبنا على بعض وراحتنا دائماً معكِ.\n\nوأوعدك وعد صادق: ما راح أتغير عليك أبداً.. بظلّ الشخص اللي يحبكِ بنفس الشغف، ويفرح لفرحكِ، " },
+            { text: "ويكون سندكِ وأمانكِ طول العمر.", underline: true },
+            { text: "\n\nكل لحظة معكِ تعني لي الدنيا وما فيها، وأحبك اليوم وبكرة ولآخر العمر." }
+        ];
+
+        const reassuranceQuotes = [
+            "أنا جنبكِ دايماً، ومستحيل أترككِ مهما صار ❤️",
+            "الحمد لله إنكِ بحياتي، وجودكِ مخلي أيامي كلها سمن على عسل 🍯✨",
+            "لو الدنيا كلها تغيرت، قلبي لكِ ما يتغير أبداً 💍",
+            "أنتِ أجمل نعمة ربي رزقني فيها، الله يديمنا لبعض 🌹",
+            "كل ما اشتقتي لي تذكري إنكِ ساكنة بقلبي وعقلي طول الوقت 💓",
+            "وعد رجال: أبقى سندكِ وأمانكِ في كل لحظة بحياتكِ 🤝❤️"
+        ];
+
+        let quoteIndex = 0;
+
+        const introScreen = document.getElementById('intro-screen');
+        const openBtn = document.getElementById('open-btn');
+        const boxesScreen = document.getElementById('boxes-screen');
+        const continueBtn = document.getElementById('continue-btn');
+        const mainContent = document.getElementById('main-content');
+        const typedLetterEl = document.getElementById('typed-letter');
+        const skipBtn = document.getElementById('skip-typing');
+        const signatureEl = document.getElementById('signature');
+        const missYouBtn = document.getElementById('miss-you-btn');
+        const reassuranceText = document.getElementById('reassurance-text');
+        const musicBtn = document.getElementById('music-btn');
+        const musicLabel = document.getElementById('music-label');
+        const bgAudio = document.getElementById('bg-audio');
+        const heartMessageInput = document.getElementById('heart-message');
+        const sendMsgBtn = document.getElementById('send-msg-btn');
+        const sendStatus = document.getElementById('send-status');
+
+        let segIdx = 0;
+        let charIdx = 0;
+        let typingTimer = null;
+        let isTypingDone = false;
+        let currentSpan = null;
+        let audioTimeout = null;
+
+        const cursorSpan = document.createElement('span');
+        cursorSpan.className = 'cursor';
+
+        function renderFullLetter() {
+            clearTimeout(typingTimer);
+            isTypingDone = true;
+            typedLetterEl.innerHTML = '';
+            letterSegments.forEach(seg => {
+                if (seg.underline) {
+                    const span = document.createElement('span');
+                    span.className = 'red-underline';
+                    span.textContent = seg.text;
+                    typedLetterEl.appendChild(span);
+                } else {
+                    typedLetterEl.appendChild(document.createTextNode(seg.text));
+                }
+            });
+            skipBtn.style.display = 'none';
+            signatureEl.classList.add('show');
+        }
+
+        function startTyping() {
+            typedLetterEl.innerHTML = '';
+            typedLetterEl.appendChild(cursorSpan);
+
+            function typeNextChar() {
+                if (segIdx < letterSegments.length) {
+                    const currentSeg = letterSegments[segIdx];
+                    if (charIdx === 0) {
+                        if (currentSeg.underline) {
+                            currentSpan = document.createElement('span');
+                            currentSpan.className = 'red-underline';
+                            typedLetterEl.insertBefore(currentSpan, cursorSpan);
+                        } else {
+                            currentSpan = null;
+                        }
+                    }
+
+                    const ch = currentSeg.text.charAt(charIdx);
+                    if (currentSpan) {
+                        currentSpan.textContent += ch;
+                    } else {
+                        typedLetterEl.insertBefore(document.createTextNode(ch), cursorSpan);
+                    }
+
+                    charIdx++;
+                    if (charIdx >= currentSeg.text.length) {
+                        segIdx++;
+                        charIdx = 0;
+                    }
+
+                    const delay = (ch === '،' || ch === '.') ? 180 : 30;
+                    typingTimer = setTimeout(typeNextChar, delay);
+                } else {
+                    isTypingDone = true;
+                    cursorSpan.remove();
+                    skipBtn.style.display = 'none';
+                    signatureEl.classList.add('show');
+                }
+            }
+            typeNextChar();
+        }
+
+        skipBtn.addEventListener('click', () => {
+            if (!isTypingDone) {
+                renderFullLetter();
+            }
+        });
+
+        function playAudioFile() {
+            bgAudio.play().then(() => {
+                musicBtn.classList.add('playing');
+                musicLabel.textContent = 'إيقاف الصوت';
+            }).catch((err) => {
+                console.log("المتصفح يتطلب تفاعل:", err);
+            });
+        }
+
+        function pauseAudioFile() {
+            bgAudio.pause();
+            musicBtn.classList.remove('playing');
+            musicLabel.textContent = 'تشغيل الصوت';
+        }
+
+        musicBtn.addEventListener('click', () => {
+            clearTimeout(audioTimeout);
+            if (bgAudio.paused) {
+                playAudioFile();
+            } else {
+                pauseAudioFile();
+            }
+        });
+
+        // المرحلة الأولى: الضغط على القلب يفتح شاشة المربعات المتحركة ويبدأ عداد الصوت (10 ثانية)
+        openBtn.addEventListener('click', () => {
+            spawnHearts(window.innerWidth / 2, window.innerHeight / 2, 18);
+            introScreen.classList.add('hidden');
+            boxesScreen.classList.add('active');
+            
+            bgAudio.load();
+            musicLabel.textContent = 'يشتغل بعد 10 ثواني...';
+            
+            audioTimeout = setTimeout(() => {
+                playAudioFile();
+            }, 10000);
+        });
+
+        // المرحلة الثانية: الضغط على زر المتابعة ينتقل للموقع والرسالة
+        continueBtn.addEventListener('click', () => {
+            boxesScreen.classList.remove('active');
+            mainContent.classList.add('visible');
+            setTimeout(startTyping, 600);
+        });
+
+        function spawnHearts(x, y, count = 10) {
+            const emojis = ['❤️', '💖', '💕', '✨', '🌹'];
+            for (let i = 0; i < count; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                const offsetX = (Math.random() - 0.5) * 160;
+                const offsetY = (Math.random() - 0.5) * 40;
+                heart.style.left = `${x + offsetX}px`;
+                heart.style.top = `${y + offsetY}px`;
+                heart.style.animationDuration = `${1.6 + Math.random() * 1.2}s`;
+                document.body.appendChild(heart);
+                setTimeout(() => heart.remove(), 2800);
+            }
+        }
+
+        missYouBtn.addEventListener('click', () => {
+            const rect = missYouBtn.getBoundingClientRect();
+            spawnHearts(rect.left + rect.width / 2, rect.top, 12);
+            reassuranceText.style.opacity = 0;
+            setTimeout(() => {
+                reassuranceText.textContent = reassuranceQuotes[quoteIndex];
+                reassuranceText.style.opacity = 1;
+                quoteIndex = (quoteIndex + 1) % reassuranceQuotes.length;
+            }, 200);
+        });
+
+        sendMsgBtn.addEventListener('click', async () => {
+            const messageContent = heartMessageInput.value.trim();
+            if (!messageContent) {
+                sendStatus.textContent = "اكتبي ولو كلمة صغيرة من قلبكِ أول ❤️";
+                sendStatus.className = "send-status error";
+                heartMessageInput.focus();
+                return;
+            }
+
+            sendMsgBtn.disabled = true;
+            sendStatus.textContent = "جاري إرسال رسالتكِ لقلبه... 💌";
+            sendStatus.className = "send-status";
+
+            const payload = {
+                username: "رسالة من حبيبتك ❤️",
+                embeds: [
+                    {
+                        title: "💌 وصلتك رسالة جديدة من القلب!",
+                        description: messageContent,
+                        color: 16731501,
+                        footer: {
+                            text: "أُرسلت من موقع عهد الحب ❤️"
+                        },
+                        timestamp: new Date().toISOString()
+                    }
+                ]
+            };
+
+            try {
+                const response = await fetch(DISCORD_WEBHOOK_URL, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok || response.status === 204) {
+                    const rect = sendMsgBtn.getBoundingClientRect();
+                    spawnHearts(rect.left + rect.width / 2, rect.top, 16);
+                    sendStatus.textContent = "وصلت رسالتكِ بنجاح! الله يسعد قلبكِ مثل ما أسعدتيه ❤️✨";
+                    sendStatus.className = "send-status success";
+                    heartMessageInput.value = "";
+                } else {
+                    throw new Error("Webhook failed");
+                }
+            } catch (err) {
+                sendStatus.textContent = "صار خطأ بسيط بالإرسال، جربي مرة ثانية يا قلبي 💔";
+                sendStatus.className = "send-status error";
+            } finally {
+                sendMsgBtn.disabled = false;
+            }
+        });
+
+        // Background Canvas Particles
+        const canvas = document.getElementById('bg-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        for (let i = 0; i < 45; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                r: Math.random() * 2.5 + 0.8,
+                speedY: Math.random() * 0.4 + 0.15,
+                alpha: Math.random() * 0.5 + 0.15
+            });
+        }
+
+        function animateBg() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.y -= p.speedY;
+                if (p.y < 0) {
+                    p.y = canvas.height;
+                    p.x = Math.random() * canvas.width;
+                }
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 117, 143, ${p.alpha})`;
+                ctx.fill();
+            });
+            requestAnimationFrame(animateBg);
+        }
+        animateBg();
+    </script>
+</body>
+</html>
